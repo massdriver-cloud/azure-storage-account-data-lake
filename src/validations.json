@@ -1,0 +1,5 @@
+{
+    "do_not_delete": [
+        "module.azure_storage_account"
+    ]
+}
