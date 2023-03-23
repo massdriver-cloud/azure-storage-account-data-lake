@@ -292,6 +292,9 @@ ui:
       - tier
       - access_tier
       - "*"
+    region:
+      ui:field: supportedCloudLocationsDropdown
+      cloudService: azure
   redundancy:
     ui:order:
       - zone_redundancy
