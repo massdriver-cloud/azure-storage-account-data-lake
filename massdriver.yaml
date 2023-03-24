@@ -128,12 +128,12 @@ params:
       properties:
         region:
           title: Region
-          description: The region where the storage account will be created.
+          description: The region where the storage account will be created. **Cannot be changed after deployment**.
           $ref: https://raw.githubusercontent.com/massdriver-cloud/artifact-definitions/main/definitions/types/azure-region.json
           $md.immutable: true
         tier:
           title: Storage account performance
-          description: The performance tier of the storage account. Premium storage account do not support geo-replication. [Learn more](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview). **This cannot be changed after the storage account is created.**
+          description: The performance tier of the storage account. **Premium storage accounts do not support geo-replication**. [Learn more](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview). **Cannot be changed after deployment**.
           type: string
           $md.immutable: true
           default: Standard
@@ -157,7 +157,7 @@ params:
       properties:
         zone_redundancy:
           title: Enable zone redundancy
-          description: Enable zone redundancy for the storage account. **This cannot be changed after the storage account is created.**
+          description: Enable zone redundancy for the storage account. **Cannot be changed after deployment**.
           type: boolean
           default: false
           # This is immutable because users can freely swap between LRS, GRS, and RAGRS, or ZRS, GZRS, and RAGZRS. 

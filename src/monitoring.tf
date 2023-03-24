@@ -2,15 +2,15 @@ locals {
   automated_alarms = {
     availability_metric_alert = {
       severity    = "1"
-      frequency   = "PT1M"
+      frequency   = "PT5M"
       window_size = "PT5M"
-      operator    = "GreaterThan"
+      operator    = "LessThan"
       aggregation = "Average"
       threshold   = 90
     }
     success_e2e_latency_metric_alert = {
       severity    = "1"
-      frequency   = "PT1M"
+      frequency   = "PT5M"
       window_size = "PT5M"
       operator    = "GreaterThan"
       aggregation = "Average"
@@ -18,7 +18,7 @@ locals {
     }
     success_server_latency_metric_alert = {
       severity    = "1"
-      frequency   = "PT1M"
+      frequency   = "PT5M"
       window_size = "PT5M"
       operator    = "GreaterThan"
       aggregation = "Average"
