@@ -34,7 +34,6 @@ Security and compliance scanning of our bundles is performed using [Bridgecrew](
 | Benchmark                                                                                                                                                                                                                                                       | Description                        |
 | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------- |
 | [![Infrastructure Security](https://www.bridgecrew.cloud/badges/github/massdriver-cloud/azure-storage-account-data-lake/general)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=massdriver-cloud%2Fazure-storage-account-data-lake&benchmark=INFRASTRUCTURE+SECURITY) | Infrastructure Security Compliance |
-
 | [![CIS AZURE](https://www.bridgecrew.cloud/badges/github/massdriver-cloud/azure-storage-account-data-lake/cis_azure)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=massdriver-cloud%2Fazure-storage-account-data-lake&benchmark=CIS+AZURE+V1.1) | Center for Internet Security, AZURE Compliance |
 | [![PCI-DSS](https://www.bridgecrew.cloud/badges/github/massdriver-cloud/azure-storage-account-data-lake/pci)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=massdriver-cloud%2Fazure-storage-account-data-lake&benchmark=PCI-DSS+V3.2) | Payment Card Industry Data Security Standards Compliance |
 | [![NIST-800-53](https://www.bridgecrew.cloud/badges/github/massdriver-cloud/azure-storage-account-data-lake/nist)](https://www.bridgecrew.cloud/link/badge?vcs=github&fullRepo=massdriver-cloud%2Fazure-storage-account-data-lake&benchmark=NIST-800-53) | National Institute of Standards and Technology Compliance |
@@ -52,8 +51,50 @@ Form input parameters for configuring a bundle for deployment.
 <summary>View</summary>
 
 <!-- PARAMS:START -->
+## Properties
 
-**Params coming soon**
+- **`account`** *(object)*
+  - **`access_tier`** *(string)*: How frequently will the data be accessed? Hot data is accessed frequently, while cool data is accessed less frequently. Hot data is cheaper to write to, but costs more to store. Cool data is more expensive to write to, but costs less to store. Must be one of: `['Hot', 'Cool']`. Default: `Hot`.
+  - **`region`** *(string)*: The region where the storage account will be created. **Cannot be changed after deployment**.
+  - **`tier`** *(string)*: The performance tier of the storage account. **Premium storage accounts do not support geo-replication**. [Learn more](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview). **Cannot be changed after deployment**. Must be one of: `['Standard', 'Premium']`. Default: `Standard`.
+- **`monitoring`** *(object)*
+  - **`mode`** *(string)*: Enable and customize Function App metric alarms. Default: `AUTOMATED`.
+    - **One of**
+      - Automated
+      - Custom
+      - Disabled
+- **`redundancy`** *(object)*
+  - **`data_protection`** *(integer)*: Set the number of days to allow data recovery if data is deleted (minimum 1, maximum 365). Minimum: `1`. Maximum: `365`. Default: `7`.
+  - **`replication_type`** *(string)*
+    - **One of**
+      - Local-redundant storage
+      - Geo-redundant storage
+      - Geo-redundant storage (read-access)
+      - Zone-redundant storage
+      - Geo-zone-redundant storage
+      - Geo-zone-redundant storage (read-access)
+  - **`zone_redundancy`** *(boolean)*: Enable zone redundancy for the storage account. **Cannot be changed after deployment**. Default: `False`.
+## Examples
+
+  ```json
+  {
+      "__name": "Development",
+      "redundancy": {
+          "data_protection": true,
+          "data_protection_days": 7
+      }
+  }
+  ```
+
+  ```json
+  {
+      "__name": "Production",
+      "redundancy": {
+          "data_protection": true,
+          "data_protection_days": 365
+      }
+  }
+  ```
 
 <!-- PARAMS:END -->
 
@@ -67,9 +108,33 @@ Connections from other bundles that this bundle depends on.
 <summary>View</summary>
 
 <!-- CONNECTIONS:START -->
+## Properties
 
-**Connections coming soon**
+- **`azure_service_principal`** *(object)*: . Cannot contain additional properties.
+  - **`data`** *(object)*
+    - **`client_id`** *(string)*: A valid UUID field.
 
+      Examples:
+      ```json
+      "123xyz99-ab34-56cd-e7f8-456abc1q2w3e"
+      ```
+
+    - **`client_secret`** *(string)*
+    - **`subscription_id`** *(string)*: A valid UUID field.
+
+      Examples:
+      ```json
+      "123xyz99-ab34-56cd-e7f8-456abc1q2w3e"
+      ```
+
+    - **`tenant_id`** *(string)*: A valid UUID field.
+
+      Examples:
+      ```json
+      "123xyz99-ab34-56cd-e7f8-456abc1q2w3e"
+      ```
+
+  - **`specs`** *(object)*
 <!-- CONNECTIONS:END -->
 
 </details>
@@ -82,9 +147,51 @@ Resources created by this bundle that can be connected to other bundles.
 <summary>View</summary>
 
 <!-- ARTIFACTS:START -->
+## Properties
 
-**Artifacts coming soon**
+- **`azure_storage_account_data_lake`** *(object)*: . Cannot contain additional properties.
+  - **`data`** *(object)*
+    - **`infrastructure`** *(object)*
+      - **`ari`** *(string)*: Azure Resource ID.
 
+        Examples:
+        ```json
+        "/subscriptions/12345678-1234-1234-abcd-1234567890ab/resourceGroups/resource-group-name/providers/Microsoft.Network/virtualNetworks/network-name"
+        ```
+
+      - **`endpoint`** *(string)*: Azure Storage Account endpoint authentication. Cannot contain additional properties.
+
+        Examples:
+        ```json
+        "https://storageaccount.blob.core.windows.net/"
+        ```
+
+        ```json
+        "http://storageaccount.file.core.windows.net"
+        ```
+
+        ```json
+        "abfs://filesystem.accountname.dfs.core.windows.net/"
+        ```
+
+        ```json
+        "https://storageaccount.privatelink01.queue.core.windows.net/"
+        ```
+
+    - **`security`** *(object)*: Azure Security Configuration. Cannot contain additional properties.
+      - **`iam`** *(object)*: IAM Roles And Scopes. Cannot contain additional properties.
+        - **`^[a-z]+[a-z_]*[a-z]$`** *(object)*
+          - **`role`**: Azure Role.
+
+            Examples:
+            ```json
+            "Storage Blob Data Reader"
+            ```
+
+          - **`scope`** *(string)*: Azure IAM Scope.
+  - **`specs`** *(object)*
+    - **`azure`** *(object)*: .
+      - **`region`** *(string)*: Select the Azure region you'd like to provision your resources in.
 <!-- ARTIFACTS:END -->
 
 </details>
