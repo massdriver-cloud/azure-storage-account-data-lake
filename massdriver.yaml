@@ -2,7 +2,7 @@ schema: draft-07
 name: "azure-storage-account-data-lake"
 description: "Data Lake Storage Gen2 makes Azure Storage the foundation for building enterprise data lakes on Azure. Designed from the start to service multiple petabytes of information while sustaining hundreds of gigabits of throughput, Data Lake Storage Gen2 allows you to easily manage massive amounts of data."
 source_url: github.com/massdriver-cloud/azure-storage-account-data-lake
-access: private
+access: public
 type: infrastructure
 
 MonitorAlarmMetric: &monitor_alarm_metric
