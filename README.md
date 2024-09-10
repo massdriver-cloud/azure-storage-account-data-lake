@@ -17,7 +17,7 @@ Data Lake Storage Gen2 makes Azure Storage the foundation for building enterpris
 
 ## Design
 
-For detailed information, check out our [Operator Guide](operator.mdx) for this bundle.
+For detailed information, check out our [Operator Guide](operator.md) for this bundle.
 
 ## Usage
 
