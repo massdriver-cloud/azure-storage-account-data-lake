@@ -1,5 +1,5 @@
 {
     "do_not_delete": [
-        "module.azure_storage_account"
+        "azurerm_storage_account.main"
     ]
 }
